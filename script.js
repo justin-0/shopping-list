@@ -83,8 +83,6 @@ function getItemsFromStorage() {
 function onClickItem(e) {
   if (e.target.parentElement.classList.contains('remove-item')) {
     removeItem(e.target.parentElement.parentElement);
-  } else {
-    setItemToEdit(e.target);
   }
 }
 
@@ -156,8 +154,6 @@ function checkUI() {
 
   formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item';
   formBtn.style.backgroundColor = '#333';
-
-  isEditMode = false;
 }
 
 // Initialize app
