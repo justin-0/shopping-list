@@ -1,6 +1,8 @@
-# Shopping List App
+# Shopping List
 
-- Add items to list via form input
-- Remove item with delete icon
-- Clear all items with clear button
-- Filter list items with search term
+- Add to DOM with input values
+- Remove items with 'x' icon
+- Clear all items with clear all
+- Filter items with input value
+- Update UI based on the number of items on page
+- Working with local storage, get and clear storage
