@@ -1,3 +1,4 @@
+// Select elements we want to help us change DOM
 const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
@@ -5,18 +6,22 @@ const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 const formBtn = itemForm.querySelector('button');
 
+// Display items from localstorage
 function displayItems() {
+  // Get local storage current value
   const itemsFromStorage = getItemsFromStorage();
+  // Loop over array of values once converted and run add dom function with the item
   itemsFromStorage.forEach((item) => addItemToDOM(item));
+  // Run checkUI and change state of application if required
   checkUI();
 }
 
 function onAddItemSubmit(e) {
   e.preventDefault();
-
+  // List item equals input field
   const newItem = itemInput.value;
 
-  // Validate Input
+  // Validate Input - if empty don't run
   if (newItem === '') {
     return;
   }
@@ -28,7 +33,7 @@ function onAddItemSubmit(e) {
   addItemToStorage(newItem);
 
   checkUI();
-
+  // Reset input after item added
   itemInput.value = '';
 }
 
@@ -69,11 +74,14 @@ function addItemToStorage(item) {
 }
 
 function getItemsFromStorage() {
+  // Create variable don't point to a value
   let itemsFromStorage;
 
   if (localStorage.getItem('items') === null) {
+    // If storage is empty then create empty array
     itemsFromStorage = [];
   } else {
+    // If storage has values convert from string back into an array
     itemsFromStorage = JSON.parse(localStorage.getItem('items'));
   }
 
@@ -81,7 +89,9 @@ function getItemsFromStorage() {
 }
 
 function onClickItem(e) {
+  // Target is icon, so check parent which is button has the class
   if (e.target.parentElement.classList.contains('remove-item')) {
+    // When true run remove item and remove the buttons parent which is the ul element
     removeItem(e.target.parentElement.parentElement);
   }
 }
@@ -114,7 +124,9 @@ function removeItemFromStorage(item) {
 }
 
 function clearItems() {
+  // While ul has a li first child, remove
   while (itemList.firstChild) {
+    // Remove child which is the ul's first child
     itemList.removeChild(itemList.firstChild);
   }
 
@@ -130,7 +142,7 @@ function filterItems(e) {
 
   items.forEach((item) => {
     const itemName = item.firstChild.textContent.toLowerCase();
-
+    // -1 means element can't be found, so display everything that is available
     if (itemName.indexOf(text) != -1) {
       item.style.display = 'flex';
     } else {
