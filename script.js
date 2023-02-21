@@ -5,6 +5,7 @@ const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 const formBtn = itemForm.querySelector('button');
+const checkedBtn = document.getElementById('clearchecked');
 
 // Display items from localstorage
 function displayItems() {
@@ -41,6 +42,10 @@ function addItemToDOM(item) {
   // Create list item
   const li = document.createElement('li');
   li.appendChild(document.createTextNode(item));
+
+  const checkbox = document.createElement('input');
+  checkbox.setAttribute('type', 'checkbox');
+  li.appendChild(checkbox);
 
   const button = createButton('remove-item btn-link text-red');
   li.appendChild(button);
@@ -94,6 +99,9 @@ function onClickItem(e) {
     // When true run remove item and remove the buttons parent which is the ul element
     removeItem(e.target.parentElement.parentElement);
   }
+  if (e.target.value === 'on') {
+    e.target.parentElement.classList.toggle('done');
+  }
 }
 
 function checkIfItemExists(item) {
@@ -129,11 +137,25 @@ function clearItems() {
     // Remove child which is the ul's first child
     itemList.removeChild(itemList.firstChild);
   }
-
   // Clear from localStorage
   localStorage.removeItem('items');
 
   checkUI();
+}
+
+function clearChecked(e) {
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  const items = itemList.querySelectorAll('li');
+  // console.log(checkboxes);
+  for (var i = 0; i < checkboxes.length; ++i) {
+    checkboxes[i].checked = false;
+  }
+  // items.classList.remove('done');
+  items.forEach((item) => {
+    if (item.classList.contains('done')) {
+      item.classList.remove('done');
+    }
+  });
 }
 
 function filterItems(e) {
@@ -159,9 +181,11 @@ function checkUI() {
   if (items.length === 0) {
     clearBtn.style.display = 'none';
     itemFilter.style.display = 'none';
+    checkedBtn.style.display = 'none';
   } else {
     clearBtn.style.display = 'block';
     itemFilter.style.display = 'block';
+    checkedBtn.style.display = 'block';
   }
 
   formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item';
@@ -175,6 +199,7 @@ function init() {
   itemList.addEventListener('click', onClickItem);
   clearBtn.addEventListener('click', clearItems);
   itemFilter.addEventListener('input', filterItems);
+  checkedBtn.addEventListener('click', clearChecked);
   document.addEventListener('DOMContentLoaded', displayItems);
 
   checkUI();

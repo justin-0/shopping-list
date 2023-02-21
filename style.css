@@ -124,6 +124,10 @@ header h1 {
   cursor: pointer;
 }
 
+.done {
+  text-decoration: line-through;
+}
+
 @media (max-width: 500px) {
   .items li {
     width: 100%;
